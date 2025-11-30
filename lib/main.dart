@@ -40,6 +40,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String _selectedCurrency = 'د.ع'; // Default to IQD
   int _selectedIndex = 0;
   late final List<Widget> _pages;
 
@@ -100,7 +101,7 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          const CustomAppBar(balance: 35.20),
+          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -249,7 +250,7 @@ class CartPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          const CustomAppBar(balance: 35.20),
+          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -340,7 +341,7 @@ class ChatPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          const CustomAppBar(balance: 35.20),
+          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
         Expanded(
           child: Column(
             children: [
@@ -500,7 +501,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Column(
         children: [
-          const CustomAppBar(balance: 35.20),
+          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -624,9 +625,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void _handleMenuItemTap(String menuItem) {
     switch (menuItem) {
       case 'العملة':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('اختر العملة المفضلة')),
-        );
+        _showCurrencyDialog();
         break;
       case 'الإشعارات':
         ScaffoldMessenger.of(context).showSnackBar(
@@ -711,6 +710,52 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
               child: const Text('تسجيل الخروج', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCurrencyDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF2A2A3E),
+          title: const Text(
+            'اختر العملة',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: const Text(
+            'اختر العملة المفضلة لعرض رصيدك:',
+            style: TextStyle(color: Colors.grey),
+            textDirection: TextDirection.rtl,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _selectedCurrency = 'د.ع';
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('تم تغيير العملة إلى الدينار العراقي')),
+                );
+              },
+              child: const Text('الدينار العراقي (د.ع)', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _selectedCurrency = '\$';
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('تم تغيير العملة إلى الدولار الأمريكي')),
+                );
+              },
+              child: const Text('الدولار الأمريكي (\$)', style: TextStyle(color: Colors.white)),
             ),
           ],
         );

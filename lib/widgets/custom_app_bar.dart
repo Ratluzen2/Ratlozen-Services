@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
   final double balance;
+  final String currency;
   final VoidCallback? onSearchPressed;
   final VoidCallback? onNotificationPressed;
 
   const CustomAppBar({
     super.key,
     this.balance = 0.0,
+    this.currency = 'د.ع',
     this.onSearchPressed,
     this.onNotificationPressed,
   });
@@ -85,7 +87,7 @@ class CustomAppBar extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          'د.ع ${balance.toStringAsFixed(2)}',
+                          '$currency ${balance.toStringAsFixed(2)}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
