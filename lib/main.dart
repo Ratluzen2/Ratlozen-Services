@@ -600,12 +600,12 @@ class _ProfilePageState extends State<ProfilePage> {
           MaterialPageRoute(builder: (context) => const WalletScreen()),
         );
         break;
-      case 'الشروط والأحكام':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const TermsAndConditionsPage()),
-        );
-        break;
+ 	      case 'الإشعارات':
+	        Navigator.push(
+	          context,
+	          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+	        );
+	        break;k;
       case 'حذف الحساب':
         _showDeleteAccountDialog();
         break;
