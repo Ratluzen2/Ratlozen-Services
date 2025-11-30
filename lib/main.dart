@@ -490,37 +490,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'زائر',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text(
+                            'زائر',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '0.00 د.ع',
-                        style: const TextStyle(
-                          color: Color(0xFFFFC107),
-                          fontSize: 16,
-                        ),
+                      const SizedBox(width: 16),
+                      const CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Color(0xFF2A2A3E),
+                        child: Icon(Icons.person, size: 30, color: Colors.white),
                       ),
                     ],
                   ),
-                  const SizedBox(width: 16),
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Color(0xFF2A2A3E),
-                    child: Icon(Icons.person, size: 30, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
+                ),
+                const SizedBox(height: 16),
             // Action buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
