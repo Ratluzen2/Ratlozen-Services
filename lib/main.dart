@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       HomePage(currency: _selectedCurrency),
-      CartPage(currency: _selectedCurrency),
+
       ChatPage(currency: _selectedCurrency),
       ProfilePage(
         currency: _selectedCurrency,
@@ -79,10 +79,7 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.home),
             label: 'الرئيسية',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'السلة',
-          ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),
             label: 'الدعم',
@@ -540,9 +537,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 16),
                 // Menu items
                 _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
-                _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
-                _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
-                _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
+	                _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
+	                _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
                 _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
                 _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
                 _buildProfileMenuItem('تقييم التطبيق', Icons.star_outline),
@@ -584,12 +580,6 @@ class _ProfilePageState extends State<ProfilePage> {
       case 'العملة':
         _showCurrencyDialog();
         break;
-	      case 'الإشعارات':
-	        Navigator.push(
-	          context,
-	          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
-	        );
-	        break;
 	      case 'محفظتي':
         Navigator.push(
           context,
