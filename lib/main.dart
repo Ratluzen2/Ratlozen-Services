@@ -891,13 +891,13 @@ class CurrencySearchDelegate extends SearchDelegate<String> {
         itemCount: filteredCurrencies.length,
         itemBuilder: (context, index) {
           final currency = filteredCurrencies[index];
-          final isSelected = widget.currentCurrency == currency['code'];
+          final isSelected = currentCurrency == currency['code'];
           
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: GestureDetector(
               onTap: () {
-                widget.onCurrencySelected(currency['code']!);
+                onCurrencySelected(currency['code']!);
                 Navigator.pop(context);
               },
               child: Container(
