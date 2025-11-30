@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
-import 'package:ratlozen_services/services/auth_service.dart';
-import 'package:ratlozen_services/screens/auth/login_screen.dart';
-import 'package:ratlozen_services/screens/auth/signup_screen.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
 
 void main() {
@@ -26,19 +23,14 @@ class RatlozenApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: LoginScreen(),
-      routes: {
-        '/signup': (context) => SignupScreen(),
-      },
+      home: MainScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
-  final User currentUser;
-
-  const MainScreen({super.key, required this.currentUser});
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -55,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
       const HomePage(),
       const CartPage(),
       const ChatPage(),
-      ProfilePage(currentUser: widget.currentUser),
+      ProfilePage(),
     ];
   }
 
@@ -324,26 +316,22 @@ class CartPage extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 32),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFC107),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFC107),
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              onPressed: () {},
-              child: const Text(
-                'الصفحة الرئيسية',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            child: const Text(
+              'ابدأ التسوق',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -360,27 +348,56 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'الدعم والأسئلة الشائعة',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textDirection: TextDirection.rtl,
+          // Header
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: 40),
+                const Text(
+                  'الدعم والأسئلة الشائعة',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
             ),
           ),
+          // Search bar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'ابحث عن سؤالك...',
+                hintStyle: const TextStyle(color: Colors.grey),
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                filled: true,
+                fillColor: const Color(0xFF2A2A3E),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // FAQ list
           Expanded(
             child: ListView(
               children: [
-                _buildFaqItem('كيف يمكنني شحن البطاقات؟'),
+                _buildFaqItem('كيف يمكنني شحن حسابي؟'),
                 _buildFaqItem('ما هي طرق الدفع المتاحة؟'),
                 _buildFaqItem('كيف يمكنني تتبع طلبي؟'),
                 _buildFaqItem('هل يمكنني استرجاع أموالي؟'),
+                _buildFaqItem('كيف يمكنني التواصل مع الدعم الفني؟'),
               ],
             ),
           ),
@@ -392,146 +409,133 @@ class ChatPage extends StatelessWidget {
   Widget _buildFaqItem(String question) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF2A2A3E),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: ListTile(
-        title: Text(
-          question,
-          style: const TextStyle(color: Colors.white),
-          textDirection: TextDirection.rtl,
-        ),
-        trailing: const Icon(Icons.expand_more, color: Colors.white),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            question,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+        ],
       ),
     );
   }
 }
 
 class ProfilePage extends StatefulWidget {
-  final User currentUser;
-
-  const ProfilePage({super.key, required this.currentUser});
+  const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final WalletService _walletService = WalletService();
-  late Future<double> _balance;
-
-  @override
-  void initState() {
-    super.initState();
-    _balance = _walletService.getBalance(widget.currentUser.id);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // User info
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Color(0xFF2A2A3E),
-                    child: Icon(Icons.person, size: 50, color: Colors.white),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    widget.currentUser.username,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  FutureBuilder<double>(
-                    future: _balance,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      }
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      return Text(
-                        'الرصيد: \$${snapshot.data?.toStringAsFixed(2) ?? '0.00'}',
-                        style: const TextStyle(color: Colors.grey, fontSize: 16),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFC107),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'زائر',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddFundsScreen(currentUser: widget.currentUser),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'إضافة رصيد',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      const SizedBox(height: 4),
+                      Text(
+                        '0.00 د.ع',
+                        style: const TextStyle(
+                          color: Color(0xFFFFC107),
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFC107),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WalletScreen(currentUser: widget.currentUser),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'المحفظة',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      ),
-                    ),
+                  const SizedBox(width: 16),
+                  const CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Color(0xFF2A2A3E),
+                    child: Icon(Icons.person, size: 30, color: Colors.white),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+            // Action buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFundsScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.add, color: Colors.black),
+                  label: const Text('إضافة رصيد', style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFC107),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WalletScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.account_balance_wallet, color: Colors.white),
+                  label: const Text('المحفظة', style: TextStyle(color: Colors.white)),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFFFFC107)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 24),
-            _buildProfileMenuItem("العملة", Icons.monetization_on_outlined),
-            _buildProfileMenuItem("الإشعارات", Icons.notifications_outlined),
-            _buildProfileMenuItem("طلباتي", Icons.list_alt_outlined),
-            _buildProfileMenuItem("محفظتي", Icons.account_balance_wallet_outlined),
-            _buildProfileMenuItem("الأسئلة الشائعة", Icons.help_outline),
-            _buildProfileMenuItem("الشروط والأحكام", Icons.description_outlined),
-            _buildProfileMenuItem("تقييم التطبيق", Icons.star_outline),
-            _buildProfileMenuItem("الدعم الفني", Icons.support_agent_outlined),
-            const SizedBox(height: 24),
-            _buildProfileMenuItem("تسجيل الخروج", Icons.logout, color: Colors.red),
-            _buildProfileMenuItem("حذف الحساب", Icons.delete_outline, color: Colors.red),
+            // Menu items
+            _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
+            _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
+            _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
+            _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
+            _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
+            _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
+            _buildProfileMenuItem('تقييم التطبيق', Icons.star_outline),
+            _buildProfileMenuItem('الدعم الفني', Icons.support_agent_outlined),
+            const SizedBox(height: 16),
+            _buildProfileMenuItem('تسجيل الخروج', Icons.logout, color: Colors.red),
+            _buildProfileMenuItem('حذف الحساب', Icons.delete_outline, color: Colors.red),
           ],
         ),
       ),
@@ -580,7 +584,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WalletScreen(currentUser: widget.currentUser),
+            builder: (context) => WalletScreen(),
           ),
         );
         break;
@@ -637,7 +641,9 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('تم تسجيل الخروج بنجاح')),
+                );
               },
               child: const Text('تسجيل الخروج', style: TextStyle(color: Colors.red)),
             ),
