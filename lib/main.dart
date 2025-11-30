@@ -591,10 +591,10 @@ class _ProfilePageState extends State<ProfilePage> {
         _showCurrencyDialog();
         break;
 	      case 'طلباتي':
-	        Navigator.pop(context); // إغلاق صفحة البروفايل أولاً
-	        Future.microtask(() {
-	          widget.onNavigateToTab(1); // ثم الانتقال إلى صفحة "طلباتي" (المؤشر 1)
-	        });
+	        // الحل الموثوق: إغلاق صفحة البروفايل أولاً، ثم استدعاء دالة الانتقال
+	        // يجب أن تكون دالة onNavigateToTab قادرة على التعامل مع استدعائها بعد pop
+	        Navigator.pop(context);
+	        widget.onNavigateToTab(1);
 	        break;
       case 'محفظتي':
         Navigator.push(
