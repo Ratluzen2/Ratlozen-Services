@@ -167,57 +167,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-                // Categories section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'كل المنتجات',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 120,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            _buildCategoryCard('الجميع', Icons.grid_3x3),
-                            _buildCategoryCard('الاتصالات', Icons.wifi),
-                            _buildCategoryCard('الألعاب', Icons.sports_esports),
-                            _buildCategoryCard('متاجر التطبيقات', Icons.shopping_bag),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // Products grid
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    children: [
-                      _buildProductCard('PlayStation', 'assets/ps.png'),
-                      _buildProductCard('iTunes', 'assets/itunes.png'),
-                      _buildProductCard('FIFA 26', 'assets/fifa.png'),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
+                    const SizedBox(height: 24),
               ],
             ),
           ),
