@@ -216,13 +216,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCarouselItem(int index) {
-    final List<String> titles = [
-      'أشحن الآن',
-      'عروض خاصة',
-      'منتجات جديدة',
-      'خصومات حصرية',
-    ];
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -250,41 +244,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           // Content
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Title
-                Text(
-                  titles[index],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textDirection: TextDirection.rtl,
-                ),
-                // Button
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFC107),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    'اشتري الآن',
-                    style: TextStyle(
-                      color: Color(0xFF1A1A2E),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+	          // Content removed as requested
         ],
       ),
     );
