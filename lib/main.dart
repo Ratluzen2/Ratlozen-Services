@@ -171,11 +171,11 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 // Categories section
-// Added a temporary comment to force a new commit
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+	                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       const Text(
                         'كل المنتجات',
@@ -256,8 +256,8 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           Container(
-            width: 60,
-            height: 60,
+	            width: 50,
+	            height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
@@ -269,10 +269,10 @@ class _HomePageState extends State<HomePage> {
             child: Icon(
               icon,
               color: const Color(0xFFFFC107),
-              size: 30,
+	              size: 24,
             ),
           ),
-          const SizedBox(height: 4),
+	          const SizedBox(height: 2),
           Text(
             title,
             style: const TextStyle(
