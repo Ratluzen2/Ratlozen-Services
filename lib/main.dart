@@ -323,46 +323,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  Widget _buildProductCard(String title, String imagePath) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: const Color(0xFF2A2A3E),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: const LinearGradient(
-                colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Icon(
-              Icons.image,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class CartPage extends StatelessWidget {
@@ -385,41 +345,40 @@ class CartPage extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: const Color(0xFFFFC107),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFFFC107).withOpacity(0.3),
-                          blurRadius: 20,
-                          spreadRadius: 5,
-                        ),
-                      ],
+                      border: Border.all(
+                        color: Colors.grey.withOpacity(0.2),
+                        width: 2,
+                      ),
                     ),
-                    child: Image.asset(
-                      'assets/empty_cart_icon.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(
-                          Icons.shopping_cart,
-                          size: 80,
-                          color: Color(0xFFFF6B35),
-                        );
-                      },
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.grey.withOpacity(0.5),
+                      size: 60,
                     ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'قائمة مشترياتك فارغة',
+                    'السلة فارغة',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                     ElevatedButton(
+                  const SizedBox(height: 10),
+                  Text(
+                    'لم تقم بإضافة أي منتجات إلى السلة بعد',
+                    style: TextStyle(
+                      color: Colors.grey.withOpacity(0.8),
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFC107),
-                      padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -427,13 +386,12 @@ class CartPage extends StatelessWidget {
                     child: const Text(
                       'ابدأ التسوق',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color(0xFF1A1A2E),
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -462,138 +420,48 @@ class ChatPage extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  'للتواصل أو الاستفسار اختر إحدى الطرق التالية:',
+                  'تواصل مع الدعم الفني مباشرة عبر واتساب.',
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
-                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.rtl,
                 ),
               ),
-              const SizedBox(height: 32),
-              // Contact options
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      _buildContactCard(
-                        context,
-                        'واتساب',
-                        '+9647763410970',
-                        Icons.phone,
-                        const Color(0xFF7C4DFF),
-                        'افتح واتساب',
-                      ),
-                      const SizedBox(height: 16),
-                      _buildContactCard(
-                        context,
-                        'تيليجرام',
-                        '@Ratluzen',
-                        Icons.send,
-                        const Color(0xFF7C4DFF),
-                        'افتح تيليجرام',
-                      ),
-                    ],
+              const SizedBox(height: 24),
+              // WhatsApp Button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final Uri whatsappUrl = Uri.parse('https://wa.me/9647837888500');
+                    if (await canLaunchUrl(whatsappUrl)) {
+                      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+                    } else {
+                      // Handle error
+                    }
+                  },
+                  icon: const Icon(Icons.wechat, color: Color(0xFF1A1A2E)),
+                  label: const Text(
+                    'افتح واتساب',
+                    style: TextStyle(
+                      color: Color(0xFF1A1A2E),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFC107),
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactCard(
-    BuildContext context,
-    String title,
-    String contact,
-    IconData icon,
-    Color iconColor,
-    String buttonText,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2A2A3E),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          // Left side - Button
-          TextButton(
-            onPressed: () async {
-              String url = '';
-              if (title == 'واتساب') {
-                url = 'https://wa.me/9647763410970';
-              } else if (title == 'تيليجرام') {
-                url = 'https://t.me/Ratluzen';
-              }
-              
-              if (url.isNotEmpty) {
-                try {
-                  if (await canLaunchUrl(Uri.parse(url))) {
-                    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('لم يتم العثور على التطبيق')),
-                    );
-                  }
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('خطأ: \$e')),
-                  );
-                }
-              }
-            },
-            child: Text(
-              buttonText,
-              style: const TextStyle(
-                color: Color(0xFF7C4DFF),
-                fontSize: 14,
-              ),
-            ),
-          ),
-          const Spacer(),
-          // Right side - Contact info
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                contact,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          // Icon
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 32,
-            ),
-          ),
         ],
       ),
     );
@@ -626,110 +494,58 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const Text(
-                            'زائر',
+                          Text(
+                            'Ratluzen',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          Text(
+                            'ID: 123456',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(width: 16),
-                      const CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Color(0xFF2A2A3E),
-                        child: Icon(Icons.person, size: 30, color: Colors.white),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFFFC107),
+                            width: 2,
+                          ),
+                        ),
+                        child: const CircleAvatar(
+                          radius: 28,
+                          backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/109465331?v=4'),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
-            // Action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddFundsScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.add, color: Colors.black),
-                  label: const Text('إضافة رصيد', style: TextStyle(color: Colors.black)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFC107),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  ),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WalletScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.account_balance_wallet, color: Colors.white),
-                  label: const Text('المحفظة', style: TextStyle(color: Colors.white)),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFFFC107)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-                        textDirection: TextDirection.rtl,
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 100,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          reverse: true, // لضمان الترتيب من اليمين لليسار
-                          children: [
-                            _buildCategoryCard('الجميع', Icons.apps_outlined),
-                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
-                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
-                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
-                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
-                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-
-                    ],
-                  ),
-                ),
-            // Menu items
-            _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
-            _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
-            _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
-            _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
-            _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
-            _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
-            _buildProfileMenuItem('تقييم التطبيق', Icons.star_outline),
-            _buildProfileMenuItem('الدعم الفني', Icons.support_agent_outlined),
-            const SizedBox(height: 16),
-            _buildProfileMenuItem('تسجيل الخروج', Icons.logout, color: Colors.red),
-            _buildProfileMenuItem('حذف الحساب', Icons.delete_outline, color: Colors.red),
+                // Menu items
+                _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
+                _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
+                _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
+                _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
+                _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
+                _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
+                _buildProfileMenuItem('تقييم التطبيق', Icons.star_outline),
+                _buildProfileMenuItem('الدعم الفني', Icons.support_agent_outlined),
+                const SizedBox(height: 16),
+                _buildProfileMenuItem('تسجيل الخروج', Icons.logout, color: Colors.red),
+                _buildProfileMenuItem('حذف الحساب', Icons.delete_outline, color: Colors.red),
               ],
             ),
           ),
@@ -748,111 +564,41 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: ListTile(
         onTap: () => _handleMenuItemTap(title),
+        leading: Icon(icon, color: color),
         title: Text(
           title,
-          style: TextStyle(color: color),
-          textDirection: TextDirection.rtl,
+          style: TextStyle(color: color, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.right,
         ),
-        trailing: Icon(icon, color: color),
-        leading: Icon(Icons.arrow_back_ios, color: color, size: 16),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
       ),
     );
   }
 
-  void _handleMenuItemTap(String menuItem) {
-    switch (menuItem) {
+  void _handleMenuItemTap(String title) {
+    switch (title) {
       case 'العملة':
         _showCurrencyDialog();
-        break;
-      case 'الإشعارات':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('إدارة الإشعارات')),
-        );
-        break;
-      case 'طلباتي':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('عرض طلباتك')),
-        );
         break;
       case 'محفظتي':
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => WalletScreen(),
-          ),
-        );
-        break;
-      case 'الأسئلة الشائعة':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('الأسئلة الشائعة')),
+          MaterialPageRoute(builder: (context) => const WalletScreen()),
         );
         break;
       case 'الشروط والأحكام':
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const TermsAndConditionsPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const TermsAndConditionsPage()),
         );
-        break;
-      case 'تقييم التطبيق':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('شكراً لتقييمك')),
-        );
-        break;
-      case 'الدعم الفني':
-        // Navigate to ChatPage (Support)
-        if (context.mounted) {
-          final mainScreenState = context.findAncestorStateOfType<_MainScreenState>();
-          mainScreenState?.setState(() {
-            mainScreenState._selectedIndex = 2; // ChatPage index
-          });
-        }
-        break;
-      case 'تسجيل الخروج':
-        _showLogoutDialog();
         break;
       case 'حذف الحساب':
         _showDeleteAccountDialog();
         break;
+      default:
+        // Handle other taps
+        break;
     }
-  }
-
-  void _showLogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF2A2A3E),
-          title: const Text(
-            'تسجيل الخروج',
-            style: TextStyle(color: Colors.white),
-            textDirection: TextDirection.rtl,
-          ),
-          content: const Text(
-            'هل تريد تسجيل الخروج من حسابك؟',
-            style: TextStyle(color: Colors.grey),
-            textDirection: TextDirection.rtl,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('إلغاء', style: TextStyle(color: Colors.white)),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم تسجيل الخروج بنجاح')),
-                );
-              },
-              child: const Text('تسجيل الخروج', style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
   }
 
 
@@ -1050,21 +796,19 @@ class _ProfilePageState extends State<ProfilePage> {
             style: TextStyle(color: Colors.white),
           ),
           content: const Text(
-            'هل أنت متأكد من رغبتك في حذف حسابك؟ هذا الإجراء غير قابل للعكس.',
+            'هل أنت متأكد أنك تريد حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه.',
             style: TextStyle(color: Colors.grey),
             textDirection: TextDirection.rtl,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('إلغاء', style: TextStyle(color: Colors.white)),
+              child: const Text('إلغاء', style: TextStyle(color: Colors.grey)),
             ),
             TextButton(
               onPressed: () {
+                // Handle account deletion
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم حذف حسابك بنجاح')),
-                );
               },
               child: const Text('حذف', style: TextStyle(color: Colors.red)),
             ),
@@ -1075,188 +819,129 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class CurrencySelectionPage extends StatefulWidget {
+class CurrencySearchDelegate extends SearchDelegate<String> {
+  final List<Map<String, String>> currencies;
   final Function(String) onCurrencySelected;
   final String currentCurrency;
 
-  const CurrencySelectionPage({
-    super.key,
+  CurrencySearchDelegate({
+    required this.currencies,
     required this.onCurrencySelected,
     required this.currentCurrency,
   });
 
   @override
-  State<CurrencySelectionPage> createState() => _CurrencySelectionPageState();
-}
-
-class _CurrencySelectionPageState extends State<CurrencySelectionPage> {
-  late List<Map<String, String>> currencies;
-  late List<Map<String, String>> filteredCurrencies;
-  final TextEditingController searchController = TextEditingController();
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF1A1A2E),
+        elevation: 0,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        hintStyle: TextStyle(color: Colors.grey),
+        border: InputBorder.none,
+      ),
+    );
+  }
 
   @override
-  void initState() {
-    super.initState();
-    currencies = [
-      {'name': 'درهم إماراتي', 'code': 'AED', 'flag': '🇦🇪'},
-      {'name': 'دينار بحريني', 'code': 'BHD', 'flag': '🇧🇭'},
-      {'name': 'جنية مصري', 'code': 'EGP', 'flag': '🇪🇬'},
-      {'name': 'يورو', 'code': 'EUR', 'flag': '🇪🇺'},
-      {'name': 'دينار عراقي', 'code': 'IQD', 'flag': '🇮🇶'},
-      {'name': 'دينار أردني', 'code': 'JOD', 'flag': '🇯🇴'},
-      {'name': 'دينار كويتي', 'code': 'KWD', 'flag': '🇰🇼'},
-      {'name': 'ريال عماني', 'code': 'OMR', 'flag': '🇴🇲'},
-      {'name': 'ريال قطري', 'code': 'QAR', 'flag': '🇶🇦'},
-      {'name': 'ريال سعودي', 'code': 'SAR', 'flag': '🇸🇦'},
-      {'name': 'دولار أمريكي', 'code': 'USD', 'flag': '🇺🇸'},
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear, color: Colors.grey),
+        onPressed: () {
+          query = '';
+        },
+      ),
     ];
-    filteredCurrencies = currencies;
-    searchController.addListener(_filterCurrencies);
-  }
-
-  void _filterCurrencies() {
-    final query = searchController.text.toLowerCase();
-    setState(() {
-      filteredCurrencies = currencies
-          .where((currency) =>
-              currency['name']!.toLowerCase().contains(query) ||
-              currency['code']!.toLowerCase().contains(query))
-          .toList();
-    });
   }
 
   @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back, color: Colors.white),
+      onPressed: () {
+        close(context, '');
+      },
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Search Bar
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                controller: searchController,
-                textDirection: TextDirection.rtl,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'إبحث عن ...',
-                  hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
-                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                  filled: true,
-                  fillColor: const Color(0xFF2A2A3E),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(
-                      color: Colors.grey.withOpacity(0.2),
-                      width: 1,
-                    ),
+  Widget buildResults(BuildContext context) {
+    return _buildCurrencyList(context);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _buildCurrencyList(context);
+  }
+
+  Widget _buildCurrencyList(BuildContext context) {
+    final filteredCurrencies = query.isEmpty
+        ? currencies
+        : currencies
+            .where((currency) =>
+                currency['name']!.toLowerCase().contains(query) ||
+                currency['code']!.toLowerCase().contains(query))
+            .toList();
+
+    return Container(
+      color: const Color(0xFF1A1A2E),
+      child: ListView.builder(
+        itemCount: filteredCurrencies.length,
+        itemBuilder: (context, index) {
+          final currency = filteredCurrencies[index];
+          final isSelected = widget.currentCurrency == currency['code'];
+          
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: GestureDetector(
+              onTap: () {
+                widget.onCurrencySelected(currency['code']!);
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: isSelected ? const Color(0xFFFFC107).withOpacity(0.2) : const Color(0xFF2A2A3E),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isSelected ? const Color(0xFFFFC107) : Colors.grey.withOpacity(0.2),
+                    width: 1,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(
-                      color: Colors.grey.withOpacity(0.2),
-                      width: 1,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          currency['flag']!,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        Text(
+                          currency['name']!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFFC107),
-                      width: 2,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    if (isSelected)
+                      const Icon(
+                        Icons.check_circle,
+                        color: Color(0xFFFFC107),
+                        size: 20,
+                      ),
+                  ],
                 ),
               ),
             ),
-            // Currencies List
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: filteredCurrencies.length,
-                itemBuilder: (context, index) {
-                  final currency = filteredCurrencies[index];
-                  final isSelected = widget.currentCurrency == currency['code'];
-                  
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: GestureDetector(
-                      onTap: () {
-                        widget.onCurrencySelected(currency['code']!);
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF2A2A3E).withOpacity(0.8) : const Color(0xFF2A2A3E),
-                          borderRadius: BorderRadius.circular(12),
-                          border: isSelected
-                              ? Border.all(color: const Color(0xFFFFC107), width: 2)
-                              : Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              currency['flag']!,
-                              style: const TextStyle(fontSize: 24),
-                            ),
-                            Text(
-                              currency['name']!,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              textDirection: TextDirection.rtl,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            // Back Button
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2A2A3E),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(
-                        color: Colors.grey.withOpacity(0.3),
-                        width: 1,
-                      ),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'رجوع',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
