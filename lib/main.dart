@@ -211,7 +211,8 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -364,7 +365,8 @@ class CartPage extends StatelessWidget {
               ),
             ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -427,7 +429,8 @@ class ChatPage extends StatelessWidget {
             ],
           ),
         ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -621,7 +624,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-      ],
+        ],
+      ),
     );
   }
 
