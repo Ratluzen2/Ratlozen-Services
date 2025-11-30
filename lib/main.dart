@@ -80,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
             label: 'الدعم',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.settings),
             label: 'الملف',
           ),
         ],
@@ -110,7 +110,7 @@ class HomePage extends StatelessWidget {
                     height: 40,
                     errorBuilder: (context, error, stackTrace) {
                       return const Text(
-                        'إشحنها',
+                        'خدمات راتلوزن',
                         style: TextStyle(
                           color: Color(0xFFFFC107),
                           fontSize: 24,
@@ -353,52 +353,59 @@ class ChatPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(width: 40),
                 const Text(
-                  'الدعم والأسئلة الشائعة',
+                  'الدعم',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
               ],
             ),
           ),
-          // Search bar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'ابحث عن سؤالك...',
-                hintStyle: const TextStyle(color: Colors.grey),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                filled: true,
-                fillColor: const Color(0xFF2A2A3E),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
+          const SizedBox(height: 16),
+          // Subtitle
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'للتواصل أو الاستفسار اختر إحدى الطرق التالية:',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 24),
-          // FAQ list
+          const SizedBox(height: 32),
+          // Contact options
           Expanded(
-            child: ListView(
-              children: [
-                _buildFaqItem('كيف يمكنني شحن حسابي؟'),
-                _buildFaqItem('ما هي طرق الدفع المتاحة؟'),
-                _buildFaqItem('كيف يمكنني تتبع طلبي؟'),
-                _buildFaqItem('هل يمكنني استرجاع أموالي؟'),
-                _buildFaqItem('كيف يمكنني التواصل مع الدعم الفني؟'),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildContactCard(
+                    context,
+                    'واتساب',
+                    '0970 341 776 964+',
+                    Icons.phone,
+                    const Color(0xFF7C4DFF),
+                    'افتح واتساب',
+                  ),
+                  const SizedBox(height: 16),
+                  _buildContactCard(
+                    context,
+                    'تيليجرام',
+                    'z396r@',
+                    Icons.send,
+                    const Color(0xFF7C4DFF),
+                    'افتح تيليجرام',
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -406,22 +413,74 @@ class ChatPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFaqItem(String question) {
+  Widget _buildContactCard(
+    BuildContext context,
+    String title,
+    String contact,
+    IconData icon,
+    Color iconColor,
+    String buttonText,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFF2A2A3E),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            question,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+          // Left side - Button
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('فتح $title')),
+              );
+            },
+            child: Text(
+              buttonText,
+              style: const TextStyle(
+                color: Color(0xFF7C4DFF),
+                fontSize: 14,
+              ),
+            ),
           ),
-          const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+          const Spacer(),
+          // Right side - Contact info
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                contact,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+          // Icon
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: iconColor,
+              size: 32,
+            ),
+          ),
         ],
       ),
     );
