@@ -51,14 +51,19 @@ class _MainScreenState extends State<MainScreen> {
 	      HomePage(currency: _selectedCurrency),
 	      CartPage(currency: _selectedCurrency),
 	      ChatPage(currency: _selectedCurrency),
-      ProfilePage(
-        currency: _selectedCurrency,
-        onCurrencyChanged: (newCurrency) {
-          setState(() {
-            _selectedCurrency = newCurrency;
-          });
-        },
-      ),
+	      ProfilePage(
+	        currency: _selectedCurrency,
+	        onCurrencyChanged: (newCurrency) {
+	          setState(() {
+	            _selectedCurrency = newCurrency;
+	          });
+	        },
+	        onNavigateToTab: (index) {
+	          setState(() {
+	            _selectedIndex = index;
+	          });
+	        },
+	      ),
     ];
 
     return Scaffold(
@@ -464,8 +469,9 @@ class ChatPage extends StatelessWidget {
 
 class ProfilePage extends StatefulWidget {
   final String currency;
-  final Function(String) onCurrencyChanged;
-  const ProfilePage({super.key, required this.currency, required this.onCurrencyChanged});
+	  final Function(String) onCurrencyChanged;
+	  final Function(int) onNavigateToTab; // New callback
+	  const ProfilePage({super.key, required this.currency, required this.onCurrencyChanged, required this.onNavigateToTab});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -585,10 +591,9 @@ class _ProfilePageState extends State<ProfilePage> {
         _showCurrencyDialog();
         break;
 	      case 'طلباتي':
-        setState(() {
-          _selectedIndex = 1; // الانتقال إلى صفحة "طلباتي"
-        });
-        break;
+	        Navigator.pop(context); // إغلاق صفحة البروفايل
+	        widget.onNavigateToTab(1); // الانتقال إلى صفحة "طلباتي" (المؤشر 1)
+	        break;
       case 'محفظتي':
         Navigator.push(
           context,
