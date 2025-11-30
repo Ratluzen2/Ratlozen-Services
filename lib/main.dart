@@ -916,6 +916,30 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _showCurrencyDialog() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CurrencySelectionPage(
+          currentCurrency: widget.currency == 'د.ع' ? 'IQD' : 'USD',
+          onCurrencySelected: (currencyCode) {
+            String currencySymbol = currencyCode == 'IQD' ? 'د.ع' : '\$';
+            widget.onCurrencyChanged(currencySymbol);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  currencyCode == 'IQD'
+                      ? 'تم تغيير العملة إلى الدينار العراقي'
+                      : 'تم تغيير العملة إلى الدولار الأمريكي',
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   void _showDeleteAccountDialog() {
     showDialog(
       context: context,
@@ -948,6 +972,193 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         );
       },
+    );
+  }
+}
+
+class CurrencySelectionPage extends StatefulWidget {
+  final Function(String) onCurrencySelected;
+  final String currentCurrency;
+
+  const CurrencySelectionPage({
+    super.key,
+    required this.onCurrencySelected,
+    required this.currentCurrency,
+  });
+
+  @override
+  State<CurrencySelectionPage> createState() => _CurrencySelectionPageState();
+}
+
+class _CurrencySelectionPageState extends State<CurrencySelectionPage> {
+  late List<Map<String, String>> currencies;
+  late List<Map<String, String>> filteredCurrencies;
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    currencies = [
+      {'name': 'درهم إماراتي', 'code': 'AED', 'flag': '🇦🇪'},
+      {'name': 'دينار بحريني', 'code': 'BHD', 'flag': '🇧🇭'},
+      {'name': 'جنية مصري', 'code': 'EGP', 'flag': '🇪🇬'},
+      {'name': 'يورو', 'code': 'EUR', 'flag': '🇪🇺'},
+      {'name': 'دينار عراقي', 'code': 'IQD', 'flag': '🇮🇶'},
+      {'name': 'دينار أردني', 'code': 'JOD', 'flag': '🇯🇴'},
+      {'name': 'دينار كويتي', 'code': 'KWD', 'flag': '🇰🇼'},
+      {'name': 'ريال عماني', 'code': 'OMR', 'flag': '🇴🇲'},
+      {'name': 'ريال قطري', 'code': 'QAR', 'flag': '🇶🇦'},
+      {'name': 'ريال سعودي', 'code': 'SAR', 'flag': '🇸🇦'},
+      {'name': 'دولار أمريكي', 'code': 'USD', 'flag': '🇺🇸'},
+    ];
+    filteredCurrencies = currencies;
+    searchController.addListener(_filterCurrencies);
+  }
+
+  void _filterCurrencies() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredCurrencies = currencies
+          .where((currency) =>
+              currency['name']!.toLowerCase().contains(query) ||
+              currency['code']!.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF1A1A2E),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Search Bar
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                controller: searchController,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'إبحث عن ...',
+                  hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  filled: true,
+                  fillColor: const Color(0xFF2A2A3E),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFFFC107),
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+              ),
+            ),
+            // Currencies List
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: filteredCurrencies.length,
+                itemBuilder: (context, index) {
+                  final currency = filteredCurrencies[index];
+                  final isSelected = widget.currentCurrency == currency['code'];
+                  
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.onCurrencySelected(currency['code']!);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: isSelected ? const Color(0xFF2A2A3E).withOpacity(0.8) : const Color(0xFF2A2A3E),
+                          borderRadius: BorderRadius.circular(12),
+                          border: isSelected
+                              ? Border.all(color: const Color(0xFFFFC107), width: 2)
+                              : Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              currency['flag']!,
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                            Text(
+                              currency['name']!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Back Button
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2A2A3E),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: Colors.grey.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'رجوع',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
