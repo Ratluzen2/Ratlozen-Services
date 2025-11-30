@@ -725,42 +725,192 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _showCurrencyDialog() {
-    showDialog(
+    String selectedCurrency = widget.currency;
+    
+    showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF2A2A3E),
-          title: const Text(
-            'اختر العملة',
-            style: TextStyle(color: Colors.white),
-          ),
-          content: const Text(
-            'اختر العملة المفضلة لعرض رصيدك:',
-            style: TextStyle(color: Colors.grey),
-            textDirection: TextDirection.rtl,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                widget.onCurrencyChanged('د.ع');
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم تغيير العملة إلى الدينار العراقي')),
-                );
-              },
-              child: const Text('🇮🇶 الدينار العراقي (د.ع)', style: TextStyle(color: Colors.white)),
-            ),
-            TextButton(
-              onPressed: () {
-                widget.onCurrencyChanged('\$');
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم تغيير العملة إلى الدولار الأمريكي')),
-                );
-              },
-              child: const Text('🇺🇸 الدولار الأمريكي (\$)', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFF1A1A2E),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+                  left: 24,
+                  right: 24,
+                  top: 24,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // Header
+                    const Text(
+                      'العملة',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textDirection: TextDirection.rtl,
+                    ),
+                    const SizedBox(height: 12),
+                    // Description
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'اختر العملة التي تريد عرض الأسعار بها',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFC107).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.attach_money,
+                            color: Color(0xFFFFC107),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    // Currency Selection Dropdown
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2A2A3E),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.grey.withOpacity(0.2),
+                          width: 1,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        child: DropdownButton<String>(
+                          value: selectedCurrency,
+                          isExpanded: true,
+                          dropdownColor: const Color(0xFF2A2A3E),
+                          underline: const SizedBox(),
+                          icon: const Icon(
+                            Icons.expand_more,
+                            color: Color(0xFFFFC107),
+                            size: 28,
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'د.ع',
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Text(
+                                    'الدينار العراقي',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  const Text(
+                                    '🇮🇶',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: '\$',
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Text(
+                                    'الدولار الأمريكي',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  const Text(
+                                    '🇺🇸',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                selectedCurrency = newValue;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Change Currency Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          widget.onCurrencyChanged(selectedCurrency);
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                selectedCurrency == 'د.ع'
+                                    ? 'تم تغيير العملة إلى الدينار العراقي'
+                                    : 'تم تغيير العملة إلى الدولار الأمريكي',
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFC107),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'تغيير العملة',
+                          style: TextStyle(
+                            color: Color(0xFF1A1A2E),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );
