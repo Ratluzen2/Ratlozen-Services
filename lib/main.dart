@@ -591,8 +591,11 @@ class _ProfilePageState extends State<ProfilePage> {
         _showCurrencyDialog();
         break;
 	      case 'طلباتي':
-	        widget.onNavigateToTab(1); // الانتقال إلى صفحة "طلباتي" (المؤشر 1)
+	        // يجب التأكد من أن ProfilePage هي صفحة مستقلة في Navigator
+	        // إذا كانت ProfilePage تفتح كـ MaterialPageRoute، يجب إغلاقها أولاً
+	        // ثم الانتقال إلى التبويب المطلوب في MainScreen
 	        Navigator.pop(context); // إغلاق صفحة البروفايل
+	        widget.onNavigateToTab(1); // الانتقال إلى صفحة "طلباتي" (المؤشر 1)
 	        break;
       case 'محفظتي':
         Navigator.push(
