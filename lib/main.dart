@@ -4,6 +4,7 @@ import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
 import 'package:ratlozen_services/widgets/custom_app_bar.dart';
+import 'pages/terms_and_conditions_page.dart';
 
 void main() {
   runApp(const RatlozenApp());
@@ -651,8 +652,11 @@ class _ProfilePageState extends State<ProfilePage> {
         );
         break;
       case 'الشروط والأحكام':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('الشروط والأحكام')),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TermsAndConditionsPage(),
+          ),
         );
         break;
       case 'تقييم التطبيق':
