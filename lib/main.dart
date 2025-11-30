@@ -605,7 +605,7 @@ class _ProfilePageState extends State<ProfilePage> {
 	          context,
 	          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
 	        );
-	        break;k;
+	        break;
       case 'حذف الحساب':
         _showDeleteAccountDialog();
         break;
