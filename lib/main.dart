@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   children: [
                     SizedBox(
-                      height: 150,
+                      height: 165,
                       child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (index) {
