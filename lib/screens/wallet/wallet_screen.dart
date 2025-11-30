@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
-import 'package:ratlozen_services/services/auth_service.dart'; // Assuming you have a way to get the current user
+
 import 'package:ratlozen_services/screens/wallet/transaction_history_screen.dart';
 
 class WalletScreen extends StatefulWidget {
-  final User currentUser; // You need to pass the logged-in user to this screen
-
-  const WalletScreen({Key? key, required this.currentUser}) : super(key: key);
+  const WalletScreen({Key? key}) : super(key: key);
 
   @override
   WalletScreenState createState() => WalletScreenState();
@@ -19,7 +17,7 @@ class WalletScreenState extends State<WalletScreen> {
   @override
   void initState() {
     super.initState();
-    _balance = _walletService.getBalance(widget.currentUser.id);
+    _balance = _walletService.getBalance('default_user');
   }
 
   @override
@@ -65,7 +63,7 @@ class WalletScreenState extends State<WalletScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TransactionHistoryScreen(currentUser: widget.currentUser),
+                    builder: (context) => const TransactionHistoryScreen(),
                   ),
                 );
               },

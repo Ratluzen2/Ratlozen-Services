@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
-import 'package:ratlozen_services/services/auth_service.dart';
 import 'package:intl/intl.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
-  final User currentUser;
-
-  const TransactionHistoryScreen({Key? key, required this.currentUser}) : super(key: key);
+  const TransactionHistoryScreen({Key? key}) : super(key: key);
 
   @override
   TransactionHistoryScreenState createState() => TransactionHistoryScreenState();
@@ -19,14 +16,14 @@ class TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _transactions = _walletService.getTransactions(widget.currentUser.id);
+    _transactions = _walletService.getTransactions('default_user');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transaction History'),
+        title: const Text('Transaction History'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _transactions,
