@@ -42,23 +42,25 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   String _selectedCurrency = 'د.ع'; // Default to IQD
   int _selectedIndex = 0;
-  late final List<Widget> _pages;
-
-  @override
-  void initState() {
-    super.initState();
-    _pages = [
-      const HomePage(),
-      const CartPage(),
-      const ChatPage(),
-      ProfilePage(),
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      HomePage(currency: _selectedCurrency),
+      CartPage(currency: _selectedCurrency),
+      ChatPage(currency: _selectedCurrency),
+      ProfilePage(
+        currency: _selectedCurrency,
+        onCurrencyChanged: (newCurrency) {
+          setState(() {
+            _selectedCurrency = newCurrency;
+          });
+        },
+      ),
+    ];
+
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -94,14 +96,15 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String currency;
+  const HomePage({super.key, required this.currency});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
+          CustomAppBar(balance: 35.20, currency: currency),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -243,14 +246,15 @@ class HomePage extends StatelessWidget {
 }
 
 class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+  final String currency;
+  const CartPage({super.key, required this.currency});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
+          CustomAppBar(balance: 35.20, currency: currency),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -334,14 +338,15 @@ class CartPage extends StatelessWidget {
 }
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  final String currency;
+  const ChatPage({super.key, required this.currency});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
+          CustomAppBar(balance: 35.20, currency: currency),
         Expanded(
           child: Column(
             children: [
@@ -489,7 +494,9 @@ class ChatPage extends StatelessWidget {
 }
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String currency;
+  final Function(String) onCurrencyChanged;
+  const ProfilePage({super.key, required this.currency, required this.onCurrencyChanged});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -501,7 +508,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: _selectedCurrency),
+          CustomAppBar(balance: 35.20, currency: widget.currency),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -735,9 +742,7 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: [
             TextButton(
               onPressed: () {
-                setState(() {
-                  _selectedCurrency = 'د.ع';
-                });
+                widget.onCurrencyChanged('د.ع');
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('تم تغيير العملة إلى الدينار العراقي')),
@@ -747,9 +752,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  _selectedCurrency = '\$';
-                });
+                widget.onCurrencyChanged('\$');
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('تم تغيير العملة إلى الدولار الأمريكي')),
