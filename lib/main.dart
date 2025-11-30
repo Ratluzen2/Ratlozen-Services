@@ -105,19 +105,15 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.search, color: Colors.white),
-                  Image.asset(
-                    'assets/logo.png',
-                    height: 40,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Text(
-                        'خدمات راتلوزن',
-                        style: TextStyle(
-                          color: Color(0xFFFFC107),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    },
+                  const Text(
+                    'خدمات راتلوزن',
+                    style: TextStyle(
+                      color: Color(0xFFFFC107),
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                      fontFamily: 'Cairo',
+                    ),
                   ),
                   const Stack(
                     children: [
@@ -663,9 +659,13 @@ class _ProfilePageState extends State<ProfilePage> {
         );
         break;
       case 'الدعم الفني':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تواصل مع الدعم الفني')),
-        );
+        // Navigate to ChatPage (Support)
+        if (context.mounted) {
+          final mainScreenState = context.findAncestorStateOfType<_MainScreenState>();
+          mainScreenState?.setState(() {
+            mainScreenState._selectedIndex = 2; // ChatPage index
+          });
+        }
         break;
       case 'تسجيل الخروج':
         _showLogoutDialog();
