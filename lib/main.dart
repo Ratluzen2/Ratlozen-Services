@@ -488,10 +488,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: 2,
                           ),
                         ),
-                        child: const CircleAvatar(
-                          radius: 28,
-                          backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/109465331?v=4'),
-                        ),
+	                        child: const CircleAvatar(
+	                          radius: 28,
+	                          backgroundImage: AssetImage('assets/images/default_profile.png'),
+	                        ),
                       ),
                     ],
                   ),
