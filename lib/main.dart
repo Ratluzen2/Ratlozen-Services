@@ -732,6 +732,7 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withOpacity(0.5),
       isScrollControlled: true,
+      useRootNavigator: true,
       builder: (BuildContext context) {
         return Container(
           decoration: const BoxDecoration(
