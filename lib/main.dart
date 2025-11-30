@@ -96,9 +96,29 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final String currency;
   const HomePage({super.key, required this.currency});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,19 +131,44 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 // Carousel section
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: const Color(0xFF2A2A3E),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'عرض ترويجي',
-                      style: TextStyle(color: Colors.white),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentPage = index;
+                          });
+                        },
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return _buildCarouselItem(index);
+                        },
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    // Page indicators
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        4,
+                        (index) => Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: _currentPage == index ? 24 : 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: _currentPage == index
+                                ? const Color(0xFFFFC107)
+                                : Colors.grey.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                 ),
                 // Categories section
                 Padding(
@@ -177,6 +222,81 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarouselItem(int index) {
+    final List<String> titles = [
+      'أشحن الآن',
+      'عروض خاصة',
+      'منتجات جديدة',
+      'خصومات حصرية',
+    ];
+    
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF2A2A3E),
+            const Color(0xFF1A1A2E),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Background
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.black.withOpacity(0.3),
+            ),
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Title
+                Text(
+                  titles[index],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textDirection: TextDirection.rtl,
+                ),
+                // Button
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFC107),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    'اشتري الآن',
+                    style: TextStyle(
+                      color: Color(0xFF1A1A2E),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
