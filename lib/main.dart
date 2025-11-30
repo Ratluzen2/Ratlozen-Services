@@ -743,7 +743,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SnackBar(content: Text('تم تغيير العملة إلى الدينار العراقي')),
                 );
               },
-              child: const Text('الدينار العراقي (د.ع)', style: TextStyle(color: Colors.white)),
+              child: const Text('🇮🇶 الدينار العراقي (د.ع)', style: TextStyle(color: Colors.white)),
             ),
             TextButton(
               onPressed: () {
@@ -755,7 +755,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SnackBar(content: Text('تم تغيير العملة إلى الدولار الأمريكي')),
                 );
               },
-              child: const Text('الدولار الأمريكي (\$)', style: TextStyle(color: Colors.white)),
+              child: const Text('🇺🇸 الدولار الأمريكي (\$)', style: TextStyle(color: Colors.white)),
             ),
           ],
         );
