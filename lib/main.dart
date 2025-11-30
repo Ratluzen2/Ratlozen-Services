@@ -95,9 +95,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomAppBar(balance: 35.20),
+    return SafeArea(
+      child: Column(
+        children: [
+          const CustomAppBar(balance: 35.20),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -283,9 +284,10 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomAppBar(balance: 35.20),
+    return SafeArea(
+      child: Column(
+        children: [
+          const CustomAppBar(balance: 35.20),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -366,9 +368,10 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomAppBar(balance: 35.20),
+    return SafeArea(
+      child: Column(
+        children: [
+          const CustomAppBar(balance: 35.20),
         Expanded(
           child: Column(
             children: [
@@ -506,9 +509,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomAppBar(balance: 35.20),
+    return SafeArea(
+      child: Column(
+        children: [
+          const CustomAppBar(balance: 35.20),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
