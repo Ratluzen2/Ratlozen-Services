@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: currency),
+          CustomAppBar(balance: 35.20, currency: widget.currency),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -397,7 +397,7 @@ class CartPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: currency),
+          CustomAppBar(balance: 35.20, currency: widget.currency),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -489,7 +489,7 @@ class ChatPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: currency),
+          CustomAppBar(balance: 35.20, currency: widget.currency),
         Expanded(
           child: Column(
             children: [
