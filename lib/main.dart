@@ -591,8 +591,8 @@ class _ProfilePageState extends State<ProfilePage> {
         _showCurrencyDialog();
         break;
 	      case 'طلباتي':
-	        Navigator.pop(context); // إغلاق صفحة البروفايل
 	        widget.onNavigateToTab(1); // الانتقال إلى صفحة "طلباتي" (المؤشر 1)
+	        Navigator.pop(context); // إغلاق صفحة البروفايل
 	        break;
       case 'محفظتي':
         Navigator.push(
