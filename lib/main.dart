@@ -171,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 // Categories section
+// Added a temporary comment to force a new commit
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
