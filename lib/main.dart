@@ -103,8 +103,8 @@ class HomePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-            // Header with search and cart
-            Padding(
+                // Header with search and cart
+                Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,9 +143,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            // Carousel section
-            Container(
+                ),
+                // Carousel section
+                Container(
               margin: const EdgeInsets.all(16),
               height: 200,
               decoration: BoxDecoration(
@@ -158,9 +158,9 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            ),
-            // Categories section
-            Padding(
+                ),
+                // Categories section
+                Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,10 +188,10 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 24),
-            // Products grid
-            Padding(
+                ),
+                const SizedBox(height: 24),
+                // Products grid
+                Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: GridView.count(
                 crossAxisCount: 3,
@@ -205,8 +205,8 @@ class HomePage extends StatelessWidget {
                   _buildProductCard('FIFA 26', 'assets/fifa.png'),
                 ],
               ),
-            ),
-            const SizedBox(height: 24),
+                ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
