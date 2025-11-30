@@ -346,8 +346,8 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'السلة فارغة',
+	                  const Text(
+	                    'لا توجد طلبات حاليًا',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -356,7 +356,7 @@ class CartPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'لم تقم بإضافة أي منتجات إلى السلة بعد',
+	                    'ستظهر طلباتك هنا',
                     style: TextStyle(
                       color: Colors.grey.withOpacity(0.8),
                       fontSize: 16,
