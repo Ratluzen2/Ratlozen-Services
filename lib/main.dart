@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
@@ -734,7 +735,9 @@ class _ProfilePageState extends State<ProfilePage> {
       isScrollControlled: true,
       useRootNavigator: true,
       builder: (BuildContext context) {
-        return Container(
+        return BackdropFilter(
+          filter: ui.ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
           decoration: const BoxDecoration(
             color: Color(0xFF1A1A2E),
             borderRadius: BorderRadius.only(
@@ -900,6 +903,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
+        ),
         );
       },
     );
