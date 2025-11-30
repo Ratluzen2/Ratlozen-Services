@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
+import 'package:ratlozen_services/widgets/custom_app_bar.dart';
 
 void main() {
   runApp(const RatlozenApp());
@@ -94,10 +95,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
+    return Column(
+      children: [
+        const CustomAppBar(balance: 35.20),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
             // Header with search and cart
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -202,9 +206,11 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-          ],
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -277,10 +283,13 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+    return Column(
+      children: [
+        const CustomAppBar(balance: 35.20),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
           Container(
             width: 200,
             height: 200,
@@ -344,8 +353,10 @@ class CartPage extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -355,47 +366,33 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          // Header
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'الدعم',
+    return Column(
+      children: [
+        const CustomAppBar(balance: 35.20),
+        Expanded(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              // Subtitle
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'للتواصل أو الاستفسار اختر إحدى الطرق التالية:',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                    fontSize: 16,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Subtitle
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              'للتواصل أو الاستفسار اختر إحدى الطرق التالية:',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 16,
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 32),
-          // Contact options
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+              const SizedBox(height: 32),
+              // Contact options
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
                   _buildContactCard(
                     context,
                     'واتساب',
@@ -414,11 +411,14 @@ class ChatPage extends StatelessWidget {
                     'افتح تيليجرام',
                   ),
                 ],
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -506,16 +506,19 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // User info
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+    return Column(
+      children: [
+        const CustomAppBar(balance: 35.20),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // User info
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -604,9 +607,11 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16),
             _buildProfileMenuItem('تسجيل الخروج', Icons.logout, color: Colors.red),
             _buildProfileMenuItem('حذف الحساب', Icons.delete_outline, color: Colors.red),
-          ],
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
