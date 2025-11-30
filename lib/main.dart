@@ -415,42 +415,7 @@ class CartPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'هو عارف من وين تبدأ؟ شوف صفحتنا الرئيسية',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                        textDirection: TextDirection.rtl,
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 100,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          reverse: true, // لضمان الترتيب من اليمين لليسار
-                          children: [
-                            _buildCategoryCard('الجميع', Icons.apps_outlined),
-                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
-                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
-                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
-                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
-                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-                  ElevatedButton(
+                     ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFC107),
@@ -729,6 +694,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 24),
+
                         textDirection: TextDirection.rtl,
                       ),
                       const SizedBox(height: 16),
@@ -748,6 +714,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+
                     ],
                   ),
                 ),
@@ -960,6 +927,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+
                         textDirection: TextDirection.rtl,
                       ),
                       const SizedBox(height: 16),
@@ -979,6 +947,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+
                     ],
                   ),
                 ),
@@ -1062,6 +1031,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 24),
+
                         textDirection: TextDirection.rtl,
                       ),
                       const SizedBox(height: 16),
@@ -1081,6 +1051,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+
                     ],
                   ),
                 ),
