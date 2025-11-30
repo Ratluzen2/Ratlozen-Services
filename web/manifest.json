@@ -1,11 +1,11 @@
 {
-    "name": "ratlozen_app",
-    "short_name": "ratlozen_app",
+    "name": "خدمات راتلوزن",
+    "short_name": "خدمات راتلوزن",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "تطبيق خدمات راتلوزن - متجر إلكتروني متكامل",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
