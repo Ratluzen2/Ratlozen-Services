@@ -367,7 +367,7 @@ class ChatPage extends StatelessWidget {
                       _buildContactCard(
                         context,
                         'واتساب',
-                        '0970 341 776 964+',
+                        '+9647763410970',
                         Icons.phone,
                         const Color(0xFF7C4DFF),
                         'افتح واتساب',
@@ -376,7 +376,7 @@ class ChatPage extends StatelessWidget {
                       _buildContactCard(
                         context,
                         'تيليجرام',
-                        'z396r@',
+                        '@Ratluzen',
                         Icons.send,
                         const Color(0xFF7C4DFF),
                         'افتح تيليجرام',
@@ -414,9 +414,9 @@ class ChatPage extends StatelessWidget {
             onPressed: () async {
               String url = '';
               if (title == 'واتساب') {
-                url = 'https://wa.me/9700970341776964';
+                url = 'https://wa.me/9647763410970';
               } else if (title == 'تيليجرام') {
-                url = 'https://t.me/z396r';
+                url = 'https://t.me/Ratluzen';
               }
               
               if (url.isNotEmpty) {
