@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
+import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
+import 'package:ratlozen_services/services/auth_service.dart';
+import 'package:ratlozen_services/screens/auth/login_screen.dart';
+import 'package:ratlozen_services/screens/auth/signup_screen.dart';
+import 'package:ratlozen_services/services/wallet_service.dart';
 
 void main() {
   runApp(const RatlozenApp());
@@ -20,14 +26,19 @@ class RatlozenApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const MainScreen(),
+      home: LoginScreen(),
+      routes: {
+        '/signup': (context) => SignupScreen(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final User currentUser;
+
+  const MainScreen({super.key, required this.currentUser});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -35,13 +46,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  late final List<Widget> _pages;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const CartPage(),
-    const ChatPage(),
-    const ProfilePage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      const HomePage(),
+      const CartPage(),
+      const ChatPage(),
+      ProfilePage(currentUser: widget.currentUser),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +341,7 @@ class CartPage extends StatelessWidget {
                 'الصفحة الرئيسية',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -343,39 +359,42 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'الأسئلة الشائعة',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'الدعم والأسئلة الشائعة',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 16),
-              _buildFAQItem('كيف أشحن شحات بيتي؟'),
-              _buildFAQItem('كيف استفيد من ميزة الكاش باك؟'),
-              _buildFAQItem('كيف أقوم بالشراء؟'),
-              _buildFAQItem('هل منجر "إشحنها" آمن وموثوق؟'),
-              _buildFAQItem('حصلت لي مشكلة كيف أقوم بالتواصل بالمعاملات؟'),
-            ],
+              textDirection: TextDirection.rtl,
+            ),
           ),
-        ),
+          Expanded(
+            child: ListView(
+              children: [
+                _buildFaqItem('كيف يمكنني شحن البطاقات؟'),
+                _buildFaqItem('ما هي طرق الدفع المتاحة؟'),
+                _buildFaqItem('كيف يمكنني تتبع طلبي؟'),
+                _buildFaqItem('هل يمكنني استرجاع أموالي؟'),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFAQItem(String question) {
+  Widget _buildFaqItem(String question) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
         color: const Color(0xFF2A2A3E),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
         title: Text(
@@ -390,8 +409,24 @@ class ChatPage extends StatelessWidget {
   }
 }
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  final User currentUser;
+
+  const ProfilePage({super.key, required this.currentUser});
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final WalletService _walletService = WalletService();
+  late Future<double> _balance;
+
+  @override
+  void initState() {
+    super.initState();
+    _balance = _walletService.getBalance(widget.currentUser.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -401,46 +436,37 @@ class ProfilePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  const Icon(Icons.arrow_forward, color: Colors.white),
-                  const Text(
-                    'محفظتي',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Color(0xFF2A2A3E),
+                    child: Icon(Icons.person, size: 50, color: Colors.white),
                   ),
-                  const SizedBox(width: 24),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: const Color(0xFFFFC107),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                  const SizedBox(height: 12),
                   Text(
-                    'د.غ 35.20',
-                    style: TextStyle(
-                      color: Colors.black,
+                    widget.currentUser.username,
+                    style: const TextStyle(
+                      color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    'رصيد محفظتك الحالي',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
+                  const SizedBox(height: 8),
+                  FutureBuilder<double>(
+                    future: _balance,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      return Text(
+                        'الرصيد: \$${snapshot.data?.toStringAsFixed(2) ?? '0.00'}',
+                        style: const TextStyle(color: Colors.grey, fontSize: 16),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -453,13 +479,20 @@ class ProfilePage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor: const Color(0xFFFFC107),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddFundsScreen(currentUser: widget.currentUser),
+                          ),
+                        );
+                      },
                       child: const Text(
-                        'بطاقة شحن',
-                        style: TextStyle(color: Colors.white),
+                        'إضافة رصيد',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
                   ),
@@ -470,10 +503,17 @@ class ProfilePage extends StatelessWidget {
                         backgroundColor: const Color(0xFFFFC107),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WalletScreen(currentUser: widget.currentUser),
+                          ),
+                        );
+                      },
                       child: const Text(
-                        '+ إضافة رصيد',
-                        style: TextStyle(color: Colors.black),
+                        'المحفظة',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
                   ),
@@ -481,34 +521,164 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _buildProfileMenuItem('الشروط والأحكام', Icons.description),
-            _buildProfileMenuItem('العملة', Icons.settings),
-            _buildProfileMenuItem('الإعدادات', Icons.settings),
+            _buildProfileMenuItem("العملة", Icons.monetization_on_outlined),
+            _buildProfileMenuItem("الإشعارات", Icons.notifications_outlined),
+            _buildProfileMenuItem("طلباتي", Icons.list_alt_outlined),
+            _buildProfileMenuItem("محفظتي", Icons.account_balance_wallet_outlined),
+            _buildProfileMenuItem("الأسئلة الشائعة", Icons.help_outline),
+            _buildProfileMenuItem("الشروط والأحكام", Icons.description_outlined),
+            _buildProfileMenuItem("تقييم التطبيق", Icons.star_outline),
+            _buildProfileMenuItem("الدعم الفني", Icons.support_agent_outlined),
+            const SizedBox(height: 24),
+            _buildProfileMenuItem("تسجيل الخروج", Icons.logout, color: Colors.red),
+            _buildProfileMenuItem("حذف الحساب", Icons.delete_outline, color: Colors.red),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileMenuItem(String title, IconData icon) {
+  Widget _buildProfileMenuItem(String title, IconData icon, {Color color = Colors.white}) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
         color: const Color(0xFF2A2A3E),
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Icon(Icons.arrow_forward, color: Colors.white),
-          Text(
-            title,
-            style: const TextStyle(color: Colors.white),
+      child: ListTile(
+        onTap: () => _handleMenuItemTap(title),
+        title: Text(
+          title,
+          style: TextStyle(color: color),
+          textDirection: TextDirection.rtl,
+        ),
+        trailing: Icon(icon, color: color),
+        leading: Icon(Icons.arrow_back_ios, color: color, size: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      ),
+    );
+  }
+
+  void _handleMenuItemTap(String menuItem) {
+    switch (menuItem) {
+      case 'العملة':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('اختر العملة المفضلة')),
+        );
+        break;
+      case 'الإشعارات':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('إدارة الإشعارات')),
+        );
+        break;
+      case 'طلباتي':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('عرض طلباتك')),
+        );
+        break;
+      case 'محفظتي':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WalletScreen(currentUser: widget.currentUser),
           ),
-          Icon(icon, color: Colors.white),
-        ],
-      ),
+        );
+        break;
+      case 'الأسئلة الشائعة':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('الأسئلة الشائعة')),
+        );
+        break;
+      case 'الشروط والأحكام':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('الشروط والأحكام')),
+        );
+        break;
+      case 'تقييم التطبيق':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('شكراً لتقييمك')),
+        );
+        break;
+      case 'الدعم الفني':
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('تواصل مع الدعم الفني')),
+        );
+        break;
+      case 'تسجيل الخروج':
+        _showLogoutDialog();
+        break;
+      case 'حذف الحساب':
+        _showDeleteAccountDialog();
+        break;
+    }
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF2A2A3E),
+          title: const Text(
+            'تسجيل الخروج',
+            style: TextStyle(color: Colors.white),
+            textDirection: TextDirection.rtl,
+          ),
+          content: const Text(
+            'هل تريد تسجيل الخروج من حسابك؟',
+            style: TextStyle(color: Colors.grey),
+            textDirection: TextDirection.rtl,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+              },
+              child: const Text('تسجيل الخروج', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteAccountDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF2A2A3E),
+          title: const Text(
+            'حذف الحساب',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: const Text(
+            'هل أنت متأكد من رغبتك في حذف حسابك؟ هذا الإجراء غير قابل للعكس.',
+            style: TextStyle(color: Colors.grey),
+            textDirection: TextDirection.rtl,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('إلغاء', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('تم حذف حسابك بنجاح')),
+                );
+              },
+              child: const Text('حذف', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }
