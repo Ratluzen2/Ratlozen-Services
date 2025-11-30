@@ -48,9 +48,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomePage(currency: _selectedCurrency),
-
-      ChatPage(currency: _selectedCurrency),
+	      HomePage(currency: _selectedCurrency),
+	      CartPage(currency: _selectedCurrency),
+	      ChatPage(currency: _selectedCurrency),
       ProfilePage(
         currency: _selectedCurrency,
         onCurrencyChanged: (newCurrency) {
@@ -77,10 +77,13 @@ class _MainScreenState extends State<MainScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'الرئيسية',
-          ),
-
-          BottomNavigationBarItem(
+	            label: 'الرئيسية',
+	          ),
+	          BottomNavigationBarItem(
+	            icon: Icon(Icons.shopping_cart),
+	            label: 'طلباتي',
+	          ),
+	          BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),
             label: 'الدعم',
           ),
@@ -538,6 +541,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Menu items
                 _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
 	                _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
+	                _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
 	                _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
                 _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
                 _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
@@ -580,7 +584,12 @@ class _ProfilePageState extends State<ProfilePage> {
       case 'العملة':
         _showCurrencyDialog();
         break;
-	      case 'محفظتي':
+	      case 'طلباتي':
+        setState(() {
+          _selectedIndex = 1; // الانتقال إلى صفحة "طلباتي"
+        });
+        break;
+      case 'محفظتي':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const WalletScreen()),
