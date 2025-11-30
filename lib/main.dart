@@ -5,6 +5,7 @@ import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
 import 'package:ratlozen_services/widgets/custom_app_bar.dart';
+import 'package:ratlozen_services/screens/notifications_screen.dart';
 import 'pages/terms_and_conditions_page.dart';
 
 void main() {
@@ -125,7 +126,17 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: widget.currency),
+          CustomAppBar(
+            balance: 35.20,
+            currency: widget.currency,
+            onNotificationPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
+            },
+          ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -297,7 +308,17 @@ class CartPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: currency),
+          CustomAppBar(
+            balance: 35.20,
+            currency: currency,
+            onNotificationPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
+            },
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -374,7 +395,17 @@ class ChatPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: currency),
+          CustomAppBar(
+            balance: 35.20,
+            currency: currency,
+            onNotificationPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
+            },
+          ),
         Expanded(
           child: Column(
             children: [
@@ -446,7 +477,17 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: widget.currency),
+          CustomAppBar(
+            balance: 35.20,
+            currency: widget.currency,
+            onNotificationPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
+            },
+          ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
