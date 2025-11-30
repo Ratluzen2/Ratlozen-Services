@@ -103,108 +103,67 @@ class HomePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Header with search and cart
-                Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.search, color: Colors.white),
-                  const Text(
-                    'خدمات راتلوزن',
-                    style: TextStyle(
-                      color: Color(0xFFFFC107),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                      fontFamily: 'Cairo',
+                // Carousel section
+                Container(
+                  margin: const EdgeInsets.all(16),
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFF2A2A3E),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'عرض ترويجي',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const Stack(
+                ),
+                // Categories section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.shopping_bag_outlined, color: Colors.white),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: CircleAvatar(
-                          radius: 8,
-                          backgroundColor: Color(0xFFFFC107),
-                          child: Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      const Text(
+                        'كل المنتجات',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 120,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.grid_3x3),
+                            _buildCategoryCard('الاتصالات', Icons.wifi),
+                            _buildCategoryCard('الألعاب', Icons.sports_esports),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.shopping_bag),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-                ),
-                // Carousel section
-                Container(
-              margin: const EdgeInsets.all(16),
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: const Color(0xFF2A2A3E),
-              ),
-              child: const Center(
-                child: Text(
-                  'عرض ترويجي',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-                ),
-                // Categories section
-                Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'كل المنتجات',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    height: 120,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        _buildCategoryCard('الجميع', Icons.grid_3x3),
-                        _buildCategoryCard('الاتصالات', Icons.wifi),
-                        _buildCategoryCard('الألعاب', Icons.sports_esports),
-                        _buildCategoryCard('متاجر التطبيقات', Icons.shopping_bag),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
                 ),
                 const SizedBox(height: 24),
                 // Products grid
                 Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                children: [
-                  _buildProductCard('PlayStation', 'assets/ps.png'),
-                  _buildProductCard('iTunes', 'assets/itunes.png'),
-                  _buildProductCard('FIFA 26', 'assets/fifa.png'),
-                ],
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    children: [
+                      _buildProductCard('PlayStation', 'assets/ps.png'),
+                      _buildProductCard('iTunes', 'assets/itunes.png'),
+                      _buildProductCard('FIFA 26', 'assets/fifa.png'),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 24),
               ],
