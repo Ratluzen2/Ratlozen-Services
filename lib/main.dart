@@ -397,7 +397,7 @@ class CartPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: widget.currency),
+          CustomAppBar(balance: 35.20, currency: currency),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -489,7 +489,7 @@ class ChatPage extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          CustomAppBar(balance: 35.20, currency: widget.currency),
+          CustomAppBar(balance: 35.20, currency: currency),
         Expanded(
           child: Column(
             children: [
