@@ -168,6 +168,41 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 24),
+// Categories section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'كل المنتجات',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true, // لضمان الترتيب من اليمين لليسار
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.apps_outlined),
+                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
+                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
+                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
+                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -253,44 +288,36 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategoryCard(String title, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: const Color(0xFF2A2A3E),
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            width: 60,
+            height: 60,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color(0xFFFFC107).withOpacity(0.1),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.2),
+                width: 1,
+              ),
+              color: const Color(0xFF2A2A3E),
             ),
             child: Icon(
               icon,
               color: const Color(0xFFFFC107),
-              size: 28,
+              size: 30,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
             title,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -401,6 +428,28 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true, // لضمان الترتيب من اليمين لليسار
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.apps_outlined),
+                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
+                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
+                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
+                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -680,6 +729,28 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 24),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true, // لضمان الترتيب من اليمين لليسار
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.apps_outlined),
+                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
+                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
+                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
+                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
             // Menu items
             _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
             _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
@@ -889,6 +960,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true, // لضمان الترتيب من اليمين لليسار
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.apps_outlined),
+                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
+                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
+                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
+                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
                 // Currency Selection - IQD
                 GestureDetector(
                   onTap: () {
@@ -969,6 +1062,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 24),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true, // لضمان الترتيب من اليمين لليسار
+                          children: [
+                            _buildCategoryCard('الجميع', Icons.apps_outlined),
+                            _buildCategoryCard('خدمات واشتراكات', Icons.subscriptions_outlined),
+                            _buildCategoryCard('التسوق', Icons.shopping_cart_outlined),
+                            _buildCategoryCard('الاتصالات', Icons.wifi_outlined),
+                            _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
+                            _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
                 // Change Currency Button
                 SizedBox(
                   width: double.infinity,
