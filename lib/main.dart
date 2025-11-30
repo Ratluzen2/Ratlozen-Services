@@ -584,7 +584,13 @@ class _ProfilePageState extends State<ProfilePage> {
       case 'العملة':
         _showCurrencyDialog();
         break;
-      case 'محفظتي':
+	      case 'الإشعارات':
+	        Navigator.push(
+	          context,
+	          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+	        );
+	        break;
+	      case 'محفظتي':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const WalletScreen()),
