@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:ratlozen_services/screens/wallet/add_funds_screen.dart';
 import 'package:ratlozen_services/screens/wallet/wallet_screen.dart';
 import 'package:ratlozen_services/services/wallet_service.dart';
@@ -410,10 +411,29 @@ class ChatPage extends StatelessWidget {
         children: [
           // Left side - Button
           TextButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('فتح $title')),
-              );
+            onPressed: () async {
+              String url = '';
+              if (title == 'واتساب') {
+                url = 'https://wa.me/9700970341776964';
+              } else if (title == 'تيليجرام') {
+                url = 'https://t.me/z396r';
+              }
+              
+              if (url.isNotEmpty) {
+                try {
+                  if (await canLaunchUrl(Uri.parse(url))) {
+                    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('لم يتم العثور على التطبيق')),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('خطأ: \$e')),
+                  );
+                }
+              }
             },
             child: Text(
               buttonText,
