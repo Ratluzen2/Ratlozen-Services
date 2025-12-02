@@ -1,14 +1,18 @@
 import { Sequelize } from 'sequelize';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// استخدم PostgreSQL على Vercel
+const databaseUrl = process.env.DATABASE_URL || 'postgresql://localhost/ratlozen';
 
-// استخدم قاعدة بيانات في الذاكرة على Vercel
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: ':memory:', // قاعدة بيانات في الذاكرة
-  logging: false,
+const sequelize = new Sequelize(databaseUrl, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  logging: process.env.NODE_ENV === 'development' ? console.log : false,
+  dialectOptions: {
+    ssl: process.env.NODE_ENV === 'production' ? {
+      require: true,
+      rejectUnauthorized: false,
+    } : false,
+  },
 });
 
 export default sequelize;
