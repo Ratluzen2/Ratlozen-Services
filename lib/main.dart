@@ -28,7 +28,7 @@ class RatlozenApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: MainScreen(),
+      home: const MainScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

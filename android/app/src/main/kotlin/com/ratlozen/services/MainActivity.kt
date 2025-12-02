@@ -1,4 +1,4 @@
-package com.example.ratlozen_app
+package com.ratlozen.services
 
 import io.flutter.embedding.android.FlutterActivity
 
