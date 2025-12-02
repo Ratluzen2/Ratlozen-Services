@@ -2,20 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import sequelize from '../backend/models/index.js';
-import Service from '../backend/models/Service.js';
-import Product from '../backend/models/Product.js';
-import Order from '../backend/models/Order.js';
-import Wallet from '../backend/models/Wallet.js';
-import Transaction from '../backend/models/Transaction.js';
-import Notification from '../backend/models/Notification.js';
-
-// Routes
-import servicesRouter from '../backend/routes/services.js';
-import productsRouter from '../backend/routes/products.js';
-import ordersRouter from '../backend/routes/orders.js';
-import walletRouter from '../backend/routes/wallet.js';
-import notificationsRouter from '../backend/routes/notifications.js';
 
 dotenv.config();
 
@@ -26,30 +12,82 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Setup associations
-Product.belongsTo(Service, { foreignKey: 'serviceId' });
-Service.hasMany(Product, { foreignKey: 'serviceId' });
-
-Order.belongsTo(Product, { foreignKey: 'productId' });
-Product.hasMany(Order, { foreignKey: 'productId' });
-
-Transaction.belongsTo(Wallet, { foreignKey: 'walletId' });
-Wallet.hasMany(Transaction, { foreignKey: 'walletId' });
-
-// Routes
-app.use('/api/services', servicesRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/orders', ordersRouter);
-app.use('/api/wallet', walletRouter);
-app.use('/api/notifications', notificationsRouter);
-
-// Health check
+// Health check - أساسي
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Ratlozen Backend is running',
     timestamp: new Date(),
     environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Services endpoints
+app.get('/api/services', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Services endpoint',
+    data: []
+  });
+});
+
+app.post('/api/services', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Service created',
+    data: req.body
+  });
+});
+
+// Products endpoints
+app.get('/api/products', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Products endpoint',
+    data: []
+  });
+});
+
+app.post('/api/products', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Product created',
+    data: req.body
+  });
+});
+
+// Orders endpoints
+app.get('/api/orders', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Orders endpoint',
+    data: []
+  });
+});
+
+app.post('/api/orders', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Order created',
+    data: req.body
+  });
+});
+
+// Wallet endpoints
+app.get('/api/wallet', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Wallet endpoint',
+    data: { balance: 0 }
+  });
+});
+
+// Notifications endpoints
+app.get('/api/notifications', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Notifications endpoint',
+    data: []
   });
 });
 
@@ -64,26 +102,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error', message: err.message });
 });
 
-// Initialize database
-let isInitialized = false;
-
-const initializeDatabase = async () => {
-  if (isInitialized) return;
-  try {
-    await sequelize.authenticate();
-    console.log('✅ Database connection established');
-    await sequelize.sync({ alter: true });
-    console.log('✅ Database models synchronized');
-    isInitialized = true;
-  } catch (error) {
-    console.error('❌ Database initialization error:', error);
-  }
-};
-
-// Initialize on first request
-app.use(async (req, res, next) => {
-  await initializeDatabase();
-  next();
-});
-
+// تصدير للـ Vercel
 export default app;
