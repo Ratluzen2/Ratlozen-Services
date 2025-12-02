@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "name": "ratlozen-api",
+  "buildCommand": "npm install",
+  "outputDirectory": ".",
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/node@3.x"
+      "src": "api/index.js",
+      "use": "@vercel/node@3.x",
+      "config": {
+        "zeroConfig": true
+      }
     }
   ],
   "routes": [
