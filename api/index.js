@@ -1,120 +1,296 @@
-// Simple Vercel Serverless Function Handler
-export default function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+// Load environment variables
+dotenv.config();
 
-  // Health check endpoint
-  if (req.url === '/api/health' && req.method === 'GET') {
-    return res.status(200).json({
-      status: 'OK',
-      message: 'Ratlozen Backend is running on Vercel',
-      timestamp: new Date(),
-      environment: process.env.NODE_ENV || 'production',
-      database: process.env.DATABASE_URL ? 'Connected' : 'Not configured'
-    });
-  }
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const app = express();
 
-  // Root endpoint
-  if (req.url === '/' && req.method === 'GET') {
-    return res.status(200).json({
-      message: 'Ratlozen Services Backend API',
-      version: '1.0.0',
-      endpoints: {
-        health: '/api/health',
-        services: '/api/services',
-        products: '/api/products',
-        orders: '/api/orders',
-        wallet: '/api/wallet',
-        notifications: '/api/notifications'
-      }
-    });
-  }
+// Middleware
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  // Services endpoints
-  if (req.url === '/api/services' && req.method === 'GET') {
-    return res.status(200).json({
-      success: true,
-      message: 'Services endpoint',
-      data: []
-    });
-  }
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
 
-  if (req.url === '/api/services' && req.method === 'POST') {
-    return res.status(201).json({
-      success: true,
-      message: 'Service created',
-      data: req.body
-    });
-  }
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Ratlozen Backend is running on Vercel',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'production',
+    database: process.env.DATABASE_URL ? 'Configured' : 'Not configured',
+    uptime: process.uptime()
+  });
+});
 
-  // Products endpoints
-  if (req.url === '/api/products' && req.method === 'GET') {
-    return res.status(200).json({
-      success: true,
-      message: 'Products endpoint',
-      data: []
-    });
-  }
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Ratlozen Services Backend API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      services: '/api/services',
+      products: '/api/products',
+      orders: '/api/orders',
+      wallet: '/api/wallet',
+      notifications: '/api/notifications'
+    }
+  });
+});
 
-  if (req.url === '/api/products' && req.method === 'POST') {
-    return res.status(201).json({
-      success: true,
-      message: 'Product created',
-      data: req.body
-    });
-  }
+// Services endpoints
+app.get('/api/services', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Services endpoint',
+    data: [],
+    timestamp: new Date().toISOString()
+  });
+});
 
-  // Orders endpoints
-  if (req.url === '/api/orders' && req.method === 'GET') {
-    return res.status(200).json({
-      success: true,
-      message: 'Orders endpoint',
-      data: []
-    });
-  }
+app.post('/api/services', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Service created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
 
-  if (req.url === '/api/orders' && req.method === 'POST') {
-    return res.status(201).json({
-      success: true,
-      message: 'Order created',
-      data: req.body
-    });
-  }
+app.get('/api/services/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Service ${req.params.id}`,
+    data: { id: req.params.id },
+    timestamp: new Date().toISOString()
+  });
+});
 
-  // Wallet endpoints
-  if (req.url === '/api/wallet' && req.method === 'GET') {
-    return res.status(200).json({
-      success: true,
-      message: 'Wallet endpoint',
-      data: { balance: 0 }
-    });
-  }
+app.put('/api/services/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Service ${req.params.id} updated`,
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
 
-  // Notifications endpoints
-  if (req.url === '/api/notifications' && req.method === 'GET') {
-    return res.status(200).json({
-      success: true,
-      message: 'Notifications endpoint',
-      data: []
-    });
-  }
+app.delete('/api/services/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Service ${req.params.id} deleted`,
+    timestamp: new Date().toISOString()
+  });
+});
 
-  // 404 Not Found
+// Products endpoints
+app.get('/api/products', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Products endpoint',
+    data: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/products', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Product created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/products/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Product ${req.params.id}`,
+    data: { id: req.params.id },
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.put('/api/products/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Product ${req.params.id} updated`,
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.delete('/api/products/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Product ${req.params.id} deleted`,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Orders endpoints
+app.get('/api/orders', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Orders endpoint',
+    data: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/orders', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Order created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/orders/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Order ${req.params.id}`,
+    data: { id: req.params.id },
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.put('/api/orders/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Order ${req.params.id} updated`,
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.delete('/api/orders/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Order ${req.params.id} deleted`,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Wallet endpoints
+app.get('/api/wallet', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Wallet endpoint',
+    data: { balance: 0, currency: 'SAR' },
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/wallet/deposit', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Deposit created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/wallet/withdraw', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Withdrawal created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Notifications endpoints
+app.get('/api/notifications', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Notifications endpoint',
+    data: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/notifications', (req, res) => {
+  res.status(201).json({
+    success: true,
+    message: 'Notification created',
+    data: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/notifications/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Notification ${req.params.id}`,
+    data: { id: req.params.id },
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.delete('/api/notifications/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `Notification ${req.params.id} deleted`,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
   res.status(404).json({
+    success: false,
     error: 'Not Found',
-    message: 'Endpoint not found',
-    path: req.url,
-    method: req.method
+    message: 'The requested endpoint does not exist',
+    path: req.path,
+    method: req.method,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({
+    success: false,
+    error: 'Internal Server Error',
+    message: err.message,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Export app for Vercel
+export default app;
+
+// Start server if running locally
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`📚 API Documentation:`);
+    console.log(`   - Health: http://localhost:${PORT}/api/health`);
+    console.log(`   - Services: http://localhost:${PORT}/api/services`);
+    console.log(`   - Products: http://localhost:${PORT}/api/products`);
+    console.log(`   - Orders: http://localhost:${PORT}/api/orders`);
+    console.log(`   - Wallet: http://localhost:${PORT}/api/wallet`);
+    console.log(`   - Notifications: http://localhost:${PORT}/api/notifications`);
   });
 }
