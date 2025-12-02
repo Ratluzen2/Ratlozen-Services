@@ -2,14 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import path from 'path';
 
 // Load environment variables
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
@@ -280,17 +278,14 @@ app.use((err, req, res, next) => {
 // Export app for Vercel
 export default app;
 
-// Start server if running locally
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📚 API Documentation:`);
-    console.log(`   - Health: http://localhost:${PORT}/api/health`);
-    console.log(`   - Services: http://localhost:${PORT}/api/services`);
-    console.log(`   - Products: http://localhost:${PORT}/api/products`);
-    console.log(`   - Orders: http://localhost:${PORT}/api/orders`);
-    console.log(`   - Wallet: http://localhost:${PORT}/api/wallet`);
-    console.log(`   - Notifications: http://localhost:${PORT}/api/notifications`);
-  });
-}
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
+  console.log(`📚 API Documentation:`);
+  console.log(`   - Health: http://localhost:${PORT}/api/health`);
+  console.log(`   - Services: http://localhost:${PORT}/api/services`);
+  console.log(`   - Products: http://localhost:${PORT}/api/products`);
+  console.log(`   - Orders: http://localhost:${PORT}/api/orders`);
+  console.log(`   - Wallet: http://localhost:${PORT}/api/wallet`);
+  console.log(`   - Notifications: http://localhost:${PORT}/api/notifications`);
+});

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node api/index.js",
     "dev": "node --watch api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo 'Build complete'"
   },
   "dependencies": {
     "express": "^5.2.1",
