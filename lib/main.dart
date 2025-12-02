@@ -590,12 +590,10 @@ class _ProfilePageState extends State<ProfilePage> {
       case 'العملة':
         _showCurrencyDialog();
         break;
-	      case 'طلباتي':
-	        // الحل الموثوق: إغلاق صفحة البروفايل أولاً، ثم استدعاء دالة الانتقال
-	        // يجب أن تكون دالة onNavigateToTab قادرة على التعامل مع استدعائها بعد pop
-	        Navigator.pop(context);
-	        widget.onNavigateToTab(1);
-	        break;
+		      case 'طلباتي':
+		        // الانتقال إلى علامة التبويب الثانية (طلباتي)
+		        widget.onNavigateToTab(1);
+		        break;
       case 'محفظتي':
         Navigator.push(
           context,
@@ -608,10 +606,16 @@ class _ProfilePageState extends State<ProfilePage> {
 	          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
 	        );
 	        break;
-      case 'حذف الحساب':
-        _showDeleteAccountDialog();
-        break;
-      default:
+	      case 'الشروط والأحكام':
+	        Navigator.push(
+	          context,
+	          MaterialPageRoute(builder: (context) => const TermsAndConditionsPage()),
+	        );
+	        break;
+	      case 'حذف الحساب':
+	        _showDeleteAccountDialog();
+	        break;
+	      default:
         // Handle other taps
         break;
     }
