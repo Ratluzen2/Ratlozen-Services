@@ -8,6 +8,7 @@ import 'package:ratlozen_services/widgets/custom_app_bar.dart';
 import 'package:ratlozen_services/screens/notifications_screen.dart';
 import 'pages/terms_and_conditions_page.dart';
 import 'package:ratlozen_services/screens/admin/admin_dashboard_screen.dart';
+import 'package:ratlozen_services/screens/products_screen.dart';
 
 void main() {
   runApp(const RatlozenApp());
@@ -217,6 +218,33 @@ class _HomePageState extends State<HomePage> {
                             _buildCategoryCard('الألعاب', Icons.gamepad_outlined),
                             _buildCategoryCard('متاجر التطبيقات', Icons.store_outlined),
                           ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const ProductsScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFC107),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text(
+                            'عرض جميع المنتجات',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
