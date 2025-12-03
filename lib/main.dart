@@ -7,6 +7,7 @@ import 'package:ratlozen_services/services/wallet_service.dart';
 import 'package:ratlozen_services/widgets/custom_app_bar.dart';
 import 'package:ratlozen_services/screens/notifications_screen.dart';
 import 'pages/terms_and_conditions_page.dart';
+import 'package:ratlozen_services/screens/admin/admin_dashboard_screen.dart';
 
 void main() {
   runApp(const RatlozenApp());
@@ -546,13 +547,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 16),
                 // Menu items
                 _buildProfileMenuItem('العملة', Icons.monetization_on_outlined),
-	                _buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
-	                _buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
-	                _buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
+				_buildProfileMenuItem('الإشعارات', Icons.notifications_outlined),
+				_buildProfileMenuItem('طلباتي', Icons.list_alt_outlined),
+				_buildProfileMenuItem('محفظتي', Icons.account_balance_wallet_outlined),
                 _buildProfileMenuItem('الأسئلة الشائعة', Icons.help_outline),
                 _buildProfileMenuItem('الشروط والأحكام', Icons.description_outlined),
                 _buildProfileMenuItem('تقييم التطبيق', Icons.star_outline),
                 _buildProfileMenuItem('الدعم الفني', Icons.support_agent_outlined),
+                const SizedBox(height: 16),
+                _buildProfileMenuItem('الإدارة', Icons.admin_panel_settings, color: const Color(0xFFFFC107)),
                 const SizedBox(height: 16),
                 _buildProfileMenuItem('تسجيل الخروج', Icons.logout, color: Colors.red),
                 _buildProfileMenuItem('حذف الحساب', Icons.delete_outline, color: Colors.red),
@@ -590,10 +593,10 @@ class _ProfilePageState extends State<ProfilePage> {
       case 'العملة':
         _showCurrencyDialog();
         break;
-		      case 'طلباتي':
-		        // الانتقال إلى علامة التبويب الثانية (طلباتي)
-		        widget.onNavigateToTab(1);
-		        break;
+			      case 'طلباتي':
+			        // الانتقال إلى علامة التبويب الثانية (طلباتي)
+			        widget.onNavigateToTab(1);
+			        break;
       case 'محفظتي':
         Navigator.push(
           context,
@@ -610,6 +613,12 @@ class _ProfilePageState extends State<ProfilePage> {
 	        Navigator.push(
 	          context,
 	          MaterialPageRoute(builder: (context) => const TermsAndConditionsPage()),
+	        );
+	        break;
+	      case 'الإدارة':
+	        Navigator.push(
+	          context,
+	          MaterialPageRoute(builder: (context) => const AdminDashboardScreen()),
 	        );
 	        break;
 	      case 'حذف الحساب':
