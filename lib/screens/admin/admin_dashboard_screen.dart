@@ -109,7 +109,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                     Icon(
                       _isServerConnected
                           ? Icons.check_circle
-                          : Icons.error_circle,
+                          : Icons.error,
                       color: _isServerConnected ? Colors.green : Colors.red,
                       size: 40,
                     ),
