@@ -331,38 +331,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<dynamic>> _fetchServices() async {
-    try {
-      // محاولة جلب الخدمات من الـ API
-      try {
-        final services = await ApiService.getServices();
-        if (services.isNotEmpty) {
-          return services;
-        }
-      } catch (e) {
-        // إذا فشل الـ API، استخدم البيانات الوهمية
-      }
-      
-      // بيانات وهمية للاختبار
-      return [
-        {
-          'id': 1,
-          'name': 'شحن رصيد',
-          'price': 1000,
-        },
-        {
-          'id': 2,
-          'name': 'اشتراك شهري',
-          'price': 5000,
-        },
-        {
-          'id': 3,
-          'name': 'عضوية ذهبية',
-          'price': 10000,
-        },
-      ];
-    } catch (e) {
-      throw Exception('فشل تحميل الخدمات');
-    }
+    // بيانات وهمية للاختبار
+    return [
+      {
+        'id': 1,
+        'name': 'شحن رصيد',
+        'price': 1000,
+      },
+      {
+        'id': 2,
+        'name': 'اشتراك شهري',
+        'price': 5000,
+      },
+      {
+        'id': 3,
+        'name': 'عضوية ذهبية',
+        'price': 10000,
+      },
+    ];
   }
 
   Widget _buildCarouselItem(int index) {
