@@ -221,6 +221,102 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+                      // عرض الخدمات
+                      const Text(
+                        'الخدمات',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 12),
+                      FutureBuilder<List<dynamic>>(
+                        future: _fetchServices(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+                              ),
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                'خطأ في تحميل الخدمات',
+                                style: TextStyle(color: Colors.grey[400]),
+                              ),
+                            );
+                          }
+                          final services = snapshot.data ?? [];
+                          if (services.isEmpty) {
+                            return Center(
+                              child: Text(
+                                'لا توجد خدمات متاحة',
+                                style: TextStyle(color: Colors.grey[400]),
+                              ),
+                            );
+                          }
+                          return SizedBox(
+                            height: 200,
+                            child: GridView.builder(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.75,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                              ),
+                              itemCount: services.length,
+                              itemBuilder: (context, index) {
+                                final service = services[index];
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        const Color(0xFF2A2A3E),
+                                        const Color(0xFF1A1A2E),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    border: Border.all(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        service['name'] ?? 'خدمة',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        '${service['price'] ?? 0} د.ع',
+                                        style: const TextStyle(
+                                          color: Color(0xFFFFC107),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 24),
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
@@ -293,6 +389,15 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future<List<dynamic>> _fetchServices() async {
+    try {
+      final services = await ApiService.getServices();
+      return services;
+    } catch (e) {
+      throw Exception('فشل تحميل الخدمات');
+    }
   }
 
   Widget _buildCategoryCard(String title, IconData icon) {
