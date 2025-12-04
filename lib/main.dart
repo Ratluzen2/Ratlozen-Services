@@ -263,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                             height: 200,
                             child: GridView.builder(
                               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
+                                crossAxisCount: 3,
                                 childAspectRatio: 0.75,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
@@ -315,33 +315,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           );
                         },
-                      ),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProductsScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFC107),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            'عرض جميع المنتجات',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 24),
                     ],
