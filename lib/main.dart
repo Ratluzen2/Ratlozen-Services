@@ -219,6 +219,73 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(height: 24),
+                      // عرض الخدمات
+                      const Text(
+                        'الخدمات',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        height: 200,
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 0.75,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                          ),
+                          itemCount: _getServices().length,
+                          itemBuilder: (context, index) {
+                            final service = _getServices()[index];
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xFF2A2A3E),
+                                    const Color(0xFF1A1A2E),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                border: Border.all(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    service['name'] ?? 'خدمة',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${service['price'] ?? 0} د.ع',
+                                    style: const TextStyle(
+                                      color: Color(0xFFFFC107),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
@@ -264,6 +331,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  List<Map<String, dynamic>> _getServices() {
+    return [
+      {'id': 1, 'name': 'كوين فيفا 26', 'price': 5000},
+      {'id': 2, 'name': 'بطاقات ايتونز', 'price': 3000},
+      {'id': 3, 'name': 'بلايستيشن ستور', 'price': 4000},
+    ];
   }
 
   Widget _buildCategoryCard(String title, IconData icon) {
